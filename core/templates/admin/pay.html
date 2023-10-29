@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Invoice Pembayaran</h2>
+        </div>
+        <div class="col-md-6 text-right">
+            <h4>Nomor Invoice: #INV{{payment_proccess.pk}}</h4>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Informasi Rekening:</h5>
+            <p><strong>Nomor Rekening:</strong> {{ no_rekening }} (BANK JAGO)</p>
+            <p><strong>Atas Nama Rekening:</strong> {{ name_rekening }}</p>
+        </div>
+        <div class="col-md-6 text-right">
+            <h5>Detail Pembayaran:</h5>
+            <p><strong>Total Pembayaran:</strong> Rp. {{ total_amount }}</p>
+            <p><strong>Batas Pembayaran:</strong> {{ payment_proccess.expired }}</p>
+        </div>
+    </div>
+{% endblock %}
