@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os
+import os, sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -144,13 +144,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'admin:login'
 
-AMOUNT_TO_PAY_PER_MONTH = int(os.environ['AMOUNT_TO_PAY_PER_MONTH']) # in idr
 
-ETHEREAL_EMAIL = os.environ['ETHEREAL_EMAIL']
-ETHEREAL_PASSWORD = os.environ['ETHEREAL_PASSWORD']
+RUNSERVER = False
 
-NO_REKENING = os.environ['NO_REKENING']
-NAME_REKENING = os.environ['NAME_REKENING']
+for _ in sys.argv:
+    if _.strip() in ['runserver', 'project.wsgi']:
+        RUNSERVER = True
+        break
+
+if RUNSERVER:
+    # required settings
+    # only loaded on runserver
+    AMOUNT_TO_PAY_PER_MONTH = int(os.environ['AMOUNT_TO_PAY_PER_MONTH']) # in idr
+
+    ETHEREAL_EMAIL = os.environ['ETHEREAL_EMAIL']
+    ETHEREAL_PASSWORD = os.environ['ETHEREAL_PASSWORD']
+
+    NO_REKENING = os.environ['NO_REKENING']
+    NAME_REKENING = os.environ['NAME_REKENING']
 
 JAZZMIN_SETTINGS = {
     "site_title": "SAFAAT",
