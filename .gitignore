@@ -1,6 +1,5 @@
 __pycache__
 Env
 \.env
-migrations
 db.sqlite3
 tes\.py

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
+from django.utils import timezone
 from django.http import HttpRequest, Http404
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
@@ -14,9 +15,16 @@ def pay(request: HttpRequest, pk: int):
     if not payment:
         raise Http404
     
-    payment_proccess = PaymentProccess()
-    payment_proccess.payment = payment
-    payment_proccess.save()
+    # payment_proccess = PaymentProccess()
+    # payment_proccess.payment = payment
+    # payment_proccess.save()
+
+    payment_proccess, _ = PaymentProccess.objects.get_or_create(
+        expired__gte = timezone.now(),
+        defaults = {
+            'payment_id': payment.pk,
+        }
+    )
 
     context['payment_proccess'] = payment_proccess
     context['total_amount'] = payment_proccess.payment.bill.amount + payment_proccess.unique_code

@@ -23,7 +23,6 @@ class CoreConfig(AppConfig):
                         soup = BS(msg.html, 'html.parser')
                         data = soup.find('p', class_ = 'transfer-table-content', string = lambda x: x and re.match(r'^Rp[\d\.]+$', x))
                         total = int(re.sub(r'\D', '', data.text))
-                        print(total)
                         if total:
                             payment_procces = PaymentProccess.objects.annotate(
                                 unique_amount = F('payment__bill__amount') + F('unique_code')
@@ -47,7 +46,7 @@ class CoreConfig(AppConfig):
         while True:
             try:
                 users = User.objects.filter(is_staff = True).filter(is_superuser = False).filter(is_active = True)
-                unix_date_for_month = time.time() // 86400 * 31 # 31 days
+                unix_date_for_month = time.time() // (86400 * 31) # 31 days
                 if not Bill.objects.filter(unix_date_for_month = unix_date_for_month).exists() and users:
                     with transaction.atomic():
                         bill = Bill()
