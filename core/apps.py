@@ -74,5 +74,6 @@ class CoreConfig(AppConfig):
         
         os.environ['DJANGO_CORE_RUN_ONCE'] = 'True'
 
-        threading.Thread(target = self.start_cron, daemon = True).start()
-        threading.Thread(target = self.start_cron_2, daemon = True).start()
+        if settings.RUNSERVER:
+            threading.Thread(target = self.start_cron, daemon = True).start()
+            threading.Thread(target = self.start_cron_2, daemon = True).start()
