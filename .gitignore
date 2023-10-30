@@ -3,3 +3,4 @@ Env
 \.env
 db.sqlite3
 tes\.py
+staticfiles
