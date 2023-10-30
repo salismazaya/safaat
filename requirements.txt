@@ -9,6 +9,7 @@ Django==4.2.6
 django-jazzmin==2.6.0
 idna==3.4
 imap-tools==1.4.0
+psycopg2-binary==2.9.9
 python-dotenv==1.0.0
 requests==2.31.0
 soupsieve==2.5
