@@ -21,6 +21,7 @@ def pay(request: HttpRequest, pk: int):
 
     payment_proccess, _ = PaymentProccess.objects.get_or_create(
         expired__gte = timezone.now(),
+        payment__id = payment.pk,
         defaults = {
             'payment_id': payment.pk,
         }

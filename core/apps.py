@@ -11,6 +11,7 @@ import threading, time, traceback, re, os
 class CoreConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'core'
+    verbose_name = 'Umum'
 
     def start_cron(self):
         from core.models import PaymentProccess

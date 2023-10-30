@@ -54,7 +54,13 @@ class PaymentAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request: HttpRequest):
         self.request = request
-        return super().get_queryset(request)
+        queryset = super().get_queryset(request)
+
+        if not request.user.is_superuser:
+            queryset = queryset.filter(user__id = self.request.user.id)
+
+        return queryset   
+
 
     def has_paid(self, obj: Payment):
         return bool(obj.payed_time)
