@@ -51,6 +51,7 @@ class CoreConfig(AppConfig):
                 if not Bill.objects.filter(unix_date_for_month = unix_date_for_month).exists() and users:
                     with transaction.atomic():
                         bill = Bill()
+                        bill.name = 'Uang Kas ' + bill.date.strftime('%B %Y')
                         bill.unix_date_for_month = unix_date_for_month
                         bill.amount = settings.AMOUNT_TO_PAY_PER_MONTH
                         bill.save()

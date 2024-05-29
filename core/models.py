@@ -8,20 +8,21 @@ class Bill(models.Model):
     class Meta:
         verbose_name = verbose_name_plural = 'Tagihan'
 
-    unix_date_for_month = models.IntegerField(unique = True)
+    name = models.CharField(max_length = 255, verbose_name = 'Nama Tagihan')
+    unix_date_for_month = models.IntegerField(unique = True, editable = False, null = True, blank = True)
     date = models.DateField(default = timezone.now)
     amount = models.PositiveBigIntegerField()
 
     def __str__(self):
-        return self.date.strftime('%B %Y')
+        return self.name
 
 
 class Payment(models.Model):
     class Meta:
         verbose_name = verbose_name_plural = 'Pembayaran'
 
-    user = models.ForeignKey(User, on_delete = models.PROTECT)
-    bill = models.ForeignKey(Bill, on_delete = models.PROTECT)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    bill = models.ForeignKey(Bill, on_delete = models.CASCADE)
     payed_time = models.DateTimeField(null = True, blank = True, verbose_name = 'Dibayar Pada')
 
 def _get_default_expired():

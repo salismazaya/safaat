@@ -14,10 +14,6 @@ def pay(request: HttpRequest, pk: int):
     payment = Payment.objects.filter(pk = pk).first()
     if not payment:
         raise Http404
-    
-    # payment_proccess = PaymentProccess()
-    # payment_proccess.payment = payment
-    # payment_proccess.save()
 
     payment_proccess, _ = PaymentProccess.objects.get_or_create(
         expired__gte = timezone.now(),

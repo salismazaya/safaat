@@ -1,5 +1,6 @@
 __pycache__
 Env
+.venv
 \.env
 db.sqlite3
 tes\.py

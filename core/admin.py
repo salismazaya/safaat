@@ -1,8 +1,10 @@
+from typing import Any
 from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
-from core.models import Payment, Bill
+from core.models import Payment, Bill, User
 from django.utils.safestring import mark_safe
+from django.db import transaction
 
 class HasPaidFilter(admin.SimpleListFilter):
     title = 'Sudah Dibayar?'
@@ -87,5 +89,18 @@ class PaymentAdmin(admin.ModelAdmin):
     name.short_description = 'Nama'
     pay_button.short_description = 'Tombol'
 
+
+class BillAdmin(admin.ModelAdmin):
+    @transaction.atomic
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        super().save_model(request, obj, form, change)
+        users = User.objects.filter(is_staff = True).filter(is_superuser = False).filter(is_active = True)
+        for user in users:
+            payment = Payment()
+            payment.bill = obj
+            payment.user = user
+            payment.save()
+
+
 admin.site.register(Payment, PaymentAdmin)
-admin.site.register(Bill)
+admin.site.register(Bill, BillAdmin)
